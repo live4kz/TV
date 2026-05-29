@@ -3,153 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بث مباشر | مباراة العراق ضد أندورا</title>
-    
+    <title>بث مباراة العراق وأندورا - مباشر</title>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-
     <style>
-        * {
-            box-sizing: border-box;
+        body {
             margin: 0;
             padding: 0;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #0b0f19, #1e293b);
-            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f0f0f;
+            color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 15px;
         }
 
         .container {
-            width: 100%;
-            max-width: 750px;
-            background: rgba(30, 41, 59, 0.75);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 95%;
+            max-width: 900px;
             text-align: center;
         }
 
         h1 {
-            font-size: 1.7rem;
-            margin-bottom: 8px;
-            color: #f1f5f9;
-        }
-
-        .badge {
-            display: inline-block;
-            background-color: #ef4444;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: bold;
+            color: #ff0000;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
             margin-bottom: 20px;
-            animation: pulse 1.5s infinite;
         }
 
-        @keyframes pulse {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(0.98); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        /* حاوية مشغل جوجل كروم */
         .video-wrapper {
             position: relative;
-            width: 100%;
-            padding-top: 56.25%; /* نسبة 16:9 للشاشات */
-            border-radius: 12px;
+            padding-top: 56.25%; /* نسبة 16:9 */
+            background: #000;
+            border: 2px solid #333;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
-            background-color: #000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* إجبار الفيديو على استخدام مشغل كروم الرسمي والافتراضي */
         video {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            outline: none;
         }
 
-        /* زر التليجرام الخاص بك */
-        .telegram-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+        .btn-telegram {
+            display: inline-block;
             margin-top: 25px;
-            padding: 14px 35px;
-            background: linear-gradient(135deg, #0088cc, #00a2ed);
+            padding: 12px 30px;
+            background-color: #0088cc;
             color: white;
             text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: bold;
             border-radius: 50px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0, 136, 204, 0.4);
-            width: 100%;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.4);
         }
 
-        .telegram-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(0, 136, 204, 0.7);
+        .btn-telegram:hover {
+            background-color: #00aaff;
+            transform: scale(1.05);
         }
 
-        .footer {
-            margin-top: 25px;
-            font-size: 0.8rem;
-            color: #94a3b8;
+        .status {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #4CAF50;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>🏆 بث مباشر مباراة العراق ضد أندورا</h1>
-        <div class="badge">🔴 جاري البث الآن - مشغل كروم الأصلي</div>
-
+        <h1>🇮🇶 بث مباراة العراق ضد أندورا 🇦🇩</h1>
+        
         <div class="video-wrapper">
-            <video id="chrome-player" controls playsinline></video>
+            <video id="video" controls autoplay playsinline poster="https://via.placeholder.com/800x450/000000/FFFFFF?text=Loading+Live+Stream..."></video>
         </div>
 
-        <a href="https://t.me/live4kz" target="_blank" class="telegram-btn">
-            📢 انضم لقناتنا على التليجرام لمتابعة المباراة
+        <p class="status">● البث يعمل الآن بجودة عالية</p>
+
+        <a href="https://t.me/live4kz" target="_blank" class="btn-telegram">
+            انضم لقناتنا على تليجرام 📡
         </a>
-
-        <div class="footer">
-            اضغط على زر التشغيل (Play) في مشغل كروم لبدء المباراة • © 2026
-        </div>
     </div>
 
     <script>
-        // رابط بثك المطلوب بدون أي تعديل
-        const streamUrl = "http://89.47.232.196:8080/live/Waielxsafwatx/sm03111206/5932.m3u8?token=cdcHcU.Uycy.X.dcXz.yczHbdcU.X.y.IQ.m3u8.e4e6ba6d83e7d5ce3589a8f26b059b822d77331b750b9386d4d866dbf612856d...YXJvbWF0di5jbw==";
-        const video = document.getElementById('chrome-player');
+        var video = document.getElementById('video');
+        // رابط البث الخاص بك
+        var videoSrc = 'http://89.47.232.196:8080/live/Waielxsafwatx/sm03111206/5932.m3u8?token=cdcHcU.Uycy.X.dcXz.yczHbdcU.X.y.IQ.m3u8.e4e6ba6d83e7d5ce3589a8f26b059b822d77331b750b9386d4d866dbf612856d...YXJvbWF0di5jbw==';
 
         if (Hls.isSupported()) {
-            const hls = new Hls();
-            hls.loadSource(streamUrl);
+            var hls = new Hls();
+            hls.loadSource(videoSrc);
             hls.attachMedia(video);
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            // للآيفون وسفاري
-            video.src = streamUrl;
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play();
+            });
+        }
+        // للمتصفحات التي تدعم m3u8 بشكل طبيعي مثل Safari على الآيفون
+        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = videoSrc;
+            video.addEventListener('loadedmetadata', function() {
+                video.play();
+            });
         }
     </script>
+
 </body>
 </html>
