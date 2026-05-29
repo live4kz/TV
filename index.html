@@ -3,307 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>البث المباشر | العراق ضد أندورا</title>
+    <title>المبرمج لايف | بث الجودة الفائقة</title>
     
-    <!-- خط Cairo الاحترافي -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-    
-    <!-- مكتبة مشغل الفيديو الفخم Plyr ومستند HLS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css" />
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.polyfilled.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://vjs.zencdn.net/8.3.0/video-js.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
+        :root {
+            --abood-gold: #ffcf33;
+            --abood-cyan: #00f2ff;
+            --abood-purple: #8e2de2;
+            --main-bg: #040609;
         }
 
         body {
-            background: radial-gradient(circle at top, #1e1b4b, #090514);
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            overflow-x: hidden;
+            background-color: var(--main-bg);
+            background: radial-gradient(circle at 50% 0%, #1a2236 0%, #040609 70%);
+            color: white;
+            font-family: 'Cairo', sans-serif;
+            margin: 0; padding-bottom: 60px;
         }
 
-        /* شريط الشعار المتحرك الاحترافي */
-        .marquee-container {
-            width: 100%;
-            max-width: 950px;
-            background: linear-gradient(90deg, #dc2626, #991b1b);
-            border-radius: 50px;
-            padding: 10px 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.3);
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        /* Navbar Stylish */
+        .abood-navbar {
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--abood-purple);
+            padding: 15px 0;
+            position: sticky; top: 0; z-index: 999;
+        }
+        .brand-name {
+            font-size: 1.8rem; font-weight: 900;
+            background: linear-gradient(to right, #fff, var(--abood-cyan));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .marquee-text {
-            display: inline-block;
-            white-space: nowrap;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #fff;
-            animation: marquee 12s linear infinite;
+        /* Live Stats Box */
+        .live-stat-box {
+            background: rgba(255, 0, 60, 0.15);
+            border: 1px solid #ff003c;
+            padding: 5px 15px;
+            border-radius: 12px;
+            font-size: 0.95rem; font-weight: bold;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .view-number { color: #fff; font-family: sans-serif; }
+
+        /* Match Panel - Horizontal Layout */
+        .match-panel {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 20px 40px;
+            margin: 35px 0;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        .team-info { display: flex; align-items: center; gap: 15px; flex: 1; }
+        .team-info.right { justify-content: flex-end; }
+        .team-info.left { justify-content: flex-start; }
+        
+        .t-logo { width: 60px; height: 60px; object-fit: cover; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); }
+        .t-name { font-size: 1.3rem; font-weight: 900; margin: 0; letter-spacing: 0.5px; }
+        .vs-badge {
+            background: linear-gradient(45deg, var(--abood-purple), var(--abood-cyan));
+            width: 50px; height: 50px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; font-weight: 900; font-size: 1.2rem;
+            margin: 0 30px; box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
         }
 
-        @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        /* كارت المباراة الضخم */
-        .match-card-hub {
-            width: 100%;
-            max-width: 950px;
-            background: rgba(30, 41, 59, 0.4);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 24px;
-            padding: 30px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            margin-bottom: 25px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        /* Video Frame */
+        .player-frame {
+            background: #000;
+            border-radius: 25px;
+            padding: 8px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 0 60px rgba(0,0,0,0.9);
             position: relative;
         }
+        .video-js { width: 100%; height: 520px; border-radius: 20px; }
 
-        .team-block {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
+        /* Quality Buttons - Modern Grid */
+        .quality-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px; margin-top: 30px;
+        }
+        .q-link-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff; padding: 15px; border-radius: 15px;
+            font-weight: 700; transition: all 0.4s ease;
+            text-align: center; cursor: pointer; text-decoration: none;
+            display: block; font-size: 1rem;
+        }
+        .q-link-btn:hover, .q-link-btn.active {
+            background: linear-gradient(135deg, var(--abood-purple) 0%, var(--abood-cyan) 100%);
+            border-color: transparent;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 242, 255, 0.3);
+            color: #000;
         }
 
-        .flag-wrapper {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid #fff;
-            box-shadow: 0 0 25px rgba(255,255,255,0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .flag-wrapper:hover {
-            transform: scale(1.1);
-        }
-
-        .flag-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .team-title {
-            font-size: 1.4rem;
-            font-weight: 900;
-            letter-spacing: 0.5px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-
-        .center-hub {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .vs-badge-giant {
-            background: linear-gradient(45deg, #e11d48, #f59e0b);
-            font-size: 1.5rem;
-            font-weight: 900;
-            padding: 8px 25px;
-            border-radius: 50px;
-            box-shadow: 0 0 20px rgba(225, 29, 72, 0.6);
-            border: 2px solid #fff;
-        }
-
-        .live-status {
-            background: rgba(34, 197, 94, 0.2);
-            border: 1px solid #22c55e;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #4ade80;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .live-pulse-dot {
-            width: 10px;
-            height: 10px;
-            background: #22c55e;
-            border-radius: 50%;
-            animation: pulse-glow 1.5s infinite;
-        }
-
-        @keyframes pulse-glow {
-            0% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-            70% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
-            100% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
-        }
-
-        /* حاوية المشغل الفخم */
-        .player-theater {
-            width: 100%;
-            max-width: 950px;
-            background: #000;
-            border-radius: 24px;
-            overflow: hidden;
-            border: 2px solid #334155;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
-            margin-bottom: 25px;
-        }
-
-        /* تخصيص مظهر مشغل Plyr */
-        .plyr {
-            --plyr-color-main: #3b82f6; /* لون أزرار التحكم أزرق فخم */
-            aspect-ratio: 16 / 9;
-        }
-
-        /* سياق زر التليكرام الضخم */
-        .telegram-vip-box {
-            width: 100%;
-            max-width: 950px;
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.8));
-            border: 2px dashed #229ED9;
-            padding: 25px;
-            border-radius: 24px;
+        /* Telegram VIP Button Section */
+        .telegram-section {
+            margin-top: 40px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-
         .telegram-vip-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
-            background: linear-gradient(45deg, #0088cc, #24a1de);
-            color: #ffffff;
+            gap: 12px;
+            background: linear-gradient(135deg, #0088cc 0%, #24a1de 100%);
+            color: #fff;
             text-decoration: none;
-            padding: 18px 45px;
-            border-radius: 50px;
+            padding: 18px 40px;
+            border-radius: 20px;
             font-weight: 900;
-            font-size: 1.3rem;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 8px 25px rgba(36, 161, 222, 0.4);
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 30px rgba(36, 161, 222, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             width: 100%;
-            max-width: 550px;
+            max-width: 500px;
         }
-
         .telegram-vip-btn:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 15px 35px rgba(36, 161, 222, 0.6);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(36, 161, 222, 0.6);
+            color: #fff;
         }
 
-        .vip-notice {
-            font-size: 1rem;
-            color: #94a3b8;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        /* التوافق التام مع الموبايل والشاشات الصغيرة */
-        @media (max-width: 600px) {
-            .match-card-hub { padding: 15px; gap: 10px; }
-            .flag-wrapper { width: 65px; height: 65px; border-width: 2px; }
-            .team-title { font-size: 1rem; }
-            .vs-badge-giant { font-size: 1rem; padding: 5px 15px; }
-            .telegram-vip-btn { font-size: 1rem; padding: 14px 25px; }
-            .marquee-text { font-size: 0.95rem; }
+        @media (max-width: 768px) {
+            .match-panel { padding: 15px; gap: 10px; margin: 20px 0; }
+            .t-name { font-size: 0.9rem; }
+            .t-logo { width: 40px; height: 40px; }
+            .vs-badge { width: 35px; height: 35px; font-size: 0.8rem; margin: 0 10px; }
+            .video-js { height: 250px; }
+            .quality-container { grid-template-columns: repeat(2, 1fr); }
+            .telegram-vip-btn { font-size: 1.1rem; padding: 14px 25px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- الشعار المتحرك التابع لقناتك -->
-    <div class="marquee-container">
-        <div class="marquee-text">🔥 تابع قناة "المبرمج لايف" على تليكرام لتغطية الأهداف فور حدوثها والملخصات بجودة عالية! 🔥</div>
-    </div>
-
-    <!-- كارت المباراة الضخم والجميل -->
-    <div class="match-card-hub">
-        <!-- منتخب العراق -->
-        <div class="team-block">
-            <div class="flag-wrapper">
-                <img src="https://flagcdn.com/w256/iq.png" alt="علم العراق">
-            </div>
-            <div class="team-title">العراق</div>
-        </div>
-
-        <!-- المركز -->
-        <div class="center-hub">
-            <div class="vs-badge-giant">VS</div>
-            <div class="live-status">
-                <span class="live-pulse-dot"></span> بث مباشر
+    <nav class="abood-navbar">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="brand-name">المبرمج لايف</div>
+            <div class="live-stat-box">
+                <i class="fas fa-satellite-dish fa-spin"></i>
+                <span><span id="random-v" class="view-number">201.450</span> ألف مشاهد</span>
             </div>
         </div>
+    </nav>
 
-        <!-- منتخب أندورا -->
-        <div class="team-block">
-            <div class="flag-wrapper">
-                <img src="https://flagcdn.com/w256/ad.png" alt="علم أندورا">
+    <div class="container">
+        <!-- لوحة المباراة المحدثة بالأعلام والدول -->
+        <div class="match-panel">
+            <div class="team-info right">
+                <h2 class="t-name">جمهورية العراق</h2>
+                <img src="https://flagcdn.com/w160/iq.png" class="t-logo" alt="علم العراق">
             </div>
-            <div class="team-title">أندورا</div>
+
+            <div class="vs-badge">VS</div>
+
+            <div class="team-info left">
+                <img src="https://flagcdn.com/w160/ad.png" class="t-logo" alt="علم أندورا">
+                <h2 class="t-name">أندورا</h2>
+            </div>
+        </div>
+
+        <!-- إطار الفيديو مع رابط البث الجديد الخاص بك -->
+        <div class="player-frame">
+            <video id="abood-stream" class="video-js vjs-big-play-centered" controls preload="auto">
+                <source id="main-src" src="http://205.237.105.25:8080/live/10176934593385/IxTopXNJ2oKhJy/255639.m3u8?token=bUbUbU.UcXz.X.Uayd.yczHbdcU.X.y.IQ.m3u8.24fe724a2fcdef2fb8bc4c37dd9fbd0b521ef750c0d4b3c59d40ae4941a57359...ZGFycHJvNGsuY29tOjgwODA=" type="application/x-mpegURL">
+            </video>
+        </div>
+
+        <!-- أزرار الجودة محدثة بالكامل بالرابط الجديد الخاص بك -->
+        <div class="quality-container">
+            <div class="q-link-btn" onclick="playQuality('http://205.237.105.25:8080/live/10176934593385/IxTopXNJ2oKhJy/255639.m3u8?token=bUbUbU.UcXz.X.Uayd.yczHbdcU.X.y.IQ.m3u8.24fe724a2fcdef2fb8bc4c37dd9fbd0b521ef750c0d4b3c59d40ae4941a57359...ZGFycHJvNGsuY29tOjgwODA=', this)">8K ULTRA</div>
+            <div class="q-link-btn" onclick="playQuality('http://205.237.105.25:8080/live/10176934593385/IxTopXNJ2oKhJy/255639.m3u8?token=bUbUbU.UcXz.X.Uayd.yczHbdcU.X.y.IQ.m3u8.24fe724a2fcdef2fb8bc4c37dd9fbd0b521ef750c0d4b3c59d40ae4941a57359...ZGFycHJvNGsuY29tOjgwODA=', this)">4K UHD</div>
+            <div class="q-link-btn active" onclick="playQuality('http://205.237.105.25:8080/live/10176934593385/IxTopXNJ2oKhJy/255639.m3u8?token=bUbUbU.UcXz.X.Uayd.yczHbdcU.X.y.IQ.m3u8.24fe724a2fcdef2fb8bc4c37dd9fbd0b521ef750c0d4b3c59d40ae4941a57359...ZGFycHJvNGsuY29tOjgwODA=', this)">FULL HD</div>
+            <div class="q-link-btn" onclick="playQuality('http://205.237.105.25:8080/live/10176934593385/IxTopXNJ2oKhJy/255639.m3u8?token=bUbUbU.UcXz.X.Uayd.yczHbdcU.X.y.IQ.m3u8.24fe724a2fcdef2fb8bc4c37dd9fbd0b521ef750c0d4b3c59d40ae4941a57359...ZGFycHJvNGsuY29tOjgwODA=', this)">SD 480p</div>
+        </div>
+
+        <!-- زر التليكرام المضاف والخاص بقناة المبرمج لايف -->
+        <div class="telegram-section">
+            <a href="https://t.me/live4kz" target="_blank" class="telegram-vip-btn">
+                <i class="fab fa-telegram-plane"></i>
+                اضغط هنا لمتابعة الأهداف على قناة المبرمج لايف
+            </a>
+        </div>
+
+        <div class="text-center mt-5">
+            <p class="text-muted small">تصميم شبكة المبرمج لايف &copy; 2026 - جودة بلا حدود</p>
         </div>
     </div>
 
-    <!-- مشغل الفيديو الـ VIP الفخم -->
-    <div class="player-theater">
-        <video id="player" controls playsinline autoplay poster="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=1200"></video>
-    </div>
-
-    <!-- قسم تليكرام المبرمج لايف للأهداف -->
-    <div class="telegram-vip-box">
-        <p class="vip-notice">فاتك الهدف؟ لا تشيل هم، الأهداف والإعادات ننشرها بقناتنا فوراً:</p>
-        <a href="https://t.me/live4kz" target="_blank" class="telegram-vip-btn">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM16.64 8.8C16.49 9.38 13.51 21.31 13.51 21.31C13.51 21.31 13.35 21.73 12.94 21.7C12.53 21.67 11.95 21.27 11.95 21.27C11.95 21.27 7.02 18.06 5.3 16.52C4.85 16.12 5.16 15.41 5.16 15.41C5.16 15.41 9.49 11.33 11.77 9.14C12.08 8.84 11.9 8.66 11.53 8.89C10.61 9.47 5.11 13.01 5.11 13.01C5.11 13.01 4.54 13.36 3.65 13.1C2.76 12.84 1.83 12.54 1.83 12.54C1.83 12.54 1.15 12.11 2.37 11.62C5.35 10.43 15.07 6.42 16.15 5.97C16.89 5.66 17.06 5.8 16.97 6.41C16.86 7.15 16.64 8.8 16.64 8.8Z" fill="currentColor"/>
-            </svg>
-            اضغط هنا للاشتراك في قناة المبرمج لايف
-        </a>
-    </div>
-
-    <!-- سكريبت التشغيل الذكي والربط بالرابط الجديد -->
+    <script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const source = "http://205.237.105.25:8080/live/10176934593385/IxTopXNJ2oKhJy/255639.m3u8?token=bUbUbU.UcXz.X.Uayd.yczHbdcU.X.y.IQ.m3u8.24fe724a2fcdef2fb8bc4c37dd9fbd0b521ef750c0d4b3c59d40ae4941a57359...ZGFycHJvNGsuY29tOjgwODA=";
-            const video = document.getElementById('player');
-            
-            // خيارات المشغل الفخم الافتراضية
-            const defaultOptions = {
-                controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-                tooltips: { controls: true, seek: true }
-            };
+        var player = videojs('abood-stream');
 
-            if (Hls.isSupported()) {
-                const hls = new Hls({
-                    maxMaxBufferLength: 10, // تقليل التقطيع وزيادة سرعة التحميل
-                    enableWorker: true
-                });
-                hls.loadSource(source);
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                    const player = new Plyr(video, defaultOptions);
-                });
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                // دعم متصفح سفاري على الآيفون والماك تلقائياً
-                video.src = source;
-                const player = new Plyr(video, defaultOptions);
-            }
-        });
+        // وظيفة تغيير الجودة الفعالة
+        function playQuality(url, element) {
+            // تحديث المصدر وتشغيل الفيديو
+            player.src({
+                src: url,
+                type: 'application/x-mpegURL'
+            });
+            player.play();
+
+            // تحديث شكل الأزرار
+            document.querySelectorAll('.q-link-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            
+            console.log("تم تحويل البث إلى: " + url);
+        }
+
+        // عداد المشاهدات العشوائي المتطور
+        function updateCounter() {
+            let base = 200;
+            let randomDec = Math.floor(Math.random() * 900) + 100; 
+            let randomBase = Math.floor(Math.random() * (220 - 200 + 1)) + 200; 
+            
+            document.getElementById('random-v').innerText = randomBase + "." + randomDec;
+        }
+
+        setInterval(updateCounter, 2500); 
+        updateCounter();
     </script>
 </body>
 </html>
