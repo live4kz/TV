@@ -1,254 +1,65 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بث مباشر | العراق ضد أندورا</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
-    
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-
+    <!-- استدعاء مشغل HLS القوي -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        body {
-            background: radial-gradient(circle at top, #1e293b, #0f172a);
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 15px;
-        }
-
-        .main-wrapper {
+        body { background: #0f172a; margin: 0; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; }
+        
+        /* شعار القناة المتحرك */
+        .channel-logo-marquee {
             width: 100%;
-            max-width: 800px;
-            margin-top: 10px;
-        }
-
-        /* كارت المباراة والأعلام */
-        .match-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 20px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
+            background: #ef4444;
+            color: white;
+            padding: 10px 0;
             text-align: center;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        .team {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .flag-box {
-            width: 75px;
-            height: 75px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid #fff;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #222;
-        }
-
-        .flag-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .team-name {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: #f8fafc;
-        }
-
-        .vs-box {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-width: 80px;
-        }
-
-        .vs-badge {
-            background: linear-gradient(45deg, #ef4444, #f59e0b);
-            padding: 4px 15px;
-            border-radius: 50px;
-            font-weight: 800;
-            font-size: 1.1rem;
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
-            animation: pulse 2s infinite;
-        }
-
-        .live-text {
-            color: #22c55e;
-            font-size: 0.85rem;
             font-weight: bold;
-            margin-top: 8px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .live-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #22c55e;
-            border-radius: 50%;
-            display: inline-block;
-            animation: blink 1s infinite;
-        }
-
-        /* حاوية المشغل السريع */
-        .player-wrapper {
-            background: #000;
-            border-radius: 20px;
             overflow: hidden;
-            border: 2px solid #334155;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            white-space: nowrap;
             position: relative;
-            margin-bottom: 20px;
         }
+        .marquee-text {
+            display: inline-block;
+            animation: marquee 10s linear infinite;
+        }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        #player {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-        }
+        /* حاوية الفيديو */
+        .video-container { width: 100%; max-width: 800px; margin-top: 20px; background: #000; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        video { width: 100%; display: block; }
 
-        /* زر التليكرام الأنيق والسريع */
-        .telegram-section {
-            text-align: center;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 1px dashed #229ED9;
-            padding: 20px;
-            border-radius: 20px;
-        }
-
-        .telegram-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            background: linear-gradient(45deg, #0088cc, #24a1de);
-            color: #fff;
-            text-decoration: none;
-            padding: 15px 35px;
-            border-radius: 50px;
-            font-weight: 800;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(36, 161, 222, 0.4);
-            width: 100%;
-            max-width: 450px;
-        }
-
-        .telegram-btn:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 25px rgba(36, 161, 222, 0.6);
-        }
-
-        .info-text {
-            font-size: 0.9rem;
-            color: #94a3b8;
-            margin-bottom: 12px;
-        }
-
-        /* حركات الأنيميشن */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes blink {
-            0% { opacity: 0.2; }
-            50% { opacity: 1; }
-            100% { opacity: 0.2; }
-        }
-
-        /* توافق الشاشات الصغيرة للموبايل */
-        @media (max-width: 480px) {
-            .flag-box { width: 60px; height: 60px; }
-            .team-name { font-size: 0.95rem; }
-            .vs-badge { font-size: 0.9rem; padding: 3px 10px; }
-            .telegram-btn { font-size: 1rem; padding: 12px 20px; }
-        }
+        /* زر التليكرام */
+        .tg-link { margin-top: 20px; padding: 15px 30px; background: #229ED9; color: white; text-decoration: none; border-radius: 50px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="main-wrapper">
-        
-        <div class="match-card">
-            <div class="team">
-                <div class="flag-box">
-                    <img src="https://flagcdn.com/w160/iq.png" alt="علم العراق">
-                </div>
-                <div class="team-name">العراق</div>
-            </div>
-
-            <div class="vs-box">
-                <div class="vs-badge">VS</div>
-                <div class="live-text">
-                    <span class="live-dot"></span> مباشر الآن
-                </div>
-            </div>
-
-            <div class="team">
-                <div class="flag-box">
-                    <img src="https://flagcdn.com/w160/ad.png" alt="علم أندورا">
-                </div>
-                <div class="team-name">أندورا</div>
-            </div>
-        </div>
-
-        <div class="player-wrapper">
-            <div id="player"></div>
-        </div>
-
-        <div class="telegram-section">
-            <p class="info-text">شاهدت هدف وتريد تراجع اللقطة؟ الأهداف والملخصات ننشرها فوراً هنا:</p>
-            <a href="https://t.me/live4kz" target="_blank" class="telegram-btn">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM16.64 8.8C16.49 9.38 13.51 21.31 13.51 21.31C13.51 21.31 13.35 21.73 12.94 21.7C12.53 21.67 11.95 21.27 11.95 21.27C11.95 21.27 7.02 18.06 5.3 16.52C4.85 16.12 5.16 15.41 5.16 15.41C5.16 15.41 9.49 11.33 11.77 9.14C12.08 8.84 11.9 8.66 11.53 8.89C10.61 9.47 5.11 13.01 5.11 13.01C5.11 13.01 4.54 13.36 3.65 13.1C2.76 12.84 1.83 12.54 1.83 12.54C1.83 12.54 1.15 12.11 2.37 11.62C5.35 10.43 15.07 6.42 16.15 5.97C16.89 5.66 17.06 5.8 16.97 6.41C16.86 7.15 16.64 8.8 16.64 8.8Z" fill="currentColor"/>
-                </svg>
-                اضغط هنا لمتابعة الأهداف على التليكرام
-            </a>
-        </div>
-
+    <!-- الشعار المتحرك -->
+    <div class="channel-logo-marquee">
+        <div class="marquee-text">تابع قناة "المبرمج لايف" على تليكرام للمزيد من البثوث الحصرية! 🔴</div>
     </div>
 
+    <div class="video-container">
+        <video id="video" controls autoplay playsinline></video>
+    </div>
+
+    <a href="https://t.me/live4kz" class="tg-link">اشترك في قناة التليكرام للمبرمج لايف</a>
+
     <script>
-        var player = new Clappr.Player({
-            source: "http://93.113.203.50:8080/live/10176934593385/IxTopXNJ2oKhJy/542435.m3u8?token=bUbUbU.yzHaabb.X.yfaUcUH.yczHbdcU.X.y.IQ.m3u8.562c4c16cb3583eafaa32a226516862b9f73fa35fed145225047d952597c2163...ZGFycHJvNGsuY29tOjgwODA=",
-            parentId: "#player",
-            width: '100%',
-            height: '100%',
-            autoPlay: false,
-            poster: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=1200&auto=format&fit=crop',
-            mediacontrol: {seekbar: '#24a1de', buttons: '#fff'},
-            mimeType: "application/x-mpegURL"
-        });
+        var video = document.getElementById('video');
+        var videoSrc = 'http://93.113.203.50:8080/live/10176934593385/IxTopXNJ2oKhJy/542435.m3u8?token=bUbUbU.yzHaabb.X.yfaUcUH.yczHbdcU.X.y.IQ.m3u8.562c4c16cb3583eafaa32a226516862b9f73fa35fed145225047d952597c2163...ZGFycHJvNGsuY29tOjgwODA=';
+        
+        if (Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadSource(videoSrc);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() { video.play(); });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = videoSrc;
+        }
     </script>
 </body>
 </html>
